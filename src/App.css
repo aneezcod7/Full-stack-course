@@ -31,3 +31,6 @@ address{
 .navbar-dark {
     background-color: #512DA8;
 }
+.ml-5{
+    margin: 10px;
+}
