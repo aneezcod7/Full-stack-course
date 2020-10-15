@@ -4,7 +4,7 @@ import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron,
     Form, FormGroup, Input, Label,Row,Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import { connect } from "react-redux";
+import { Loading } from './LoadingComponent';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
@@ -23,7 +23,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
     const RenderComments = ({comments, addComment, dishId}) => {
             const comnts = comments.map((comment,index) =>(
-                    <li>
+                    <li key={index.toString()}>
                     <p>{comment.comment}</p>
                     <p>--{comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}</p>
                     </li>
@@ -114,8 +114,25 @@ const minLength = (len) => (val) => val && (val.length >= len);
     };
 
     const DishDetail = (props) => {
-
-        if(props.dish!=null){
+        if (props.isLoading) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <Loading />
+                    </div>
+                </div>
+            );
+        }
+        else if (props.errMess) {
+            return(
+                <div className="container">
+                    <div className="row">            
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            );
+        }
+        else if (props.dish != null){
             return (
                 <div className="container">
                     <div className="row">
